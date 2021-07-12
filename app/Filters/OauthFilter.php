@@ -11,21 +11,21 @@ use \OAuth2\Response;
 
 class OauthFilter implements FilterInterface
 {
-    public function before(RequestInterface $request)
+    public function before(RequestInterface $request , $arguments = NULL)
     {
-       $oauth = new Oauth();
-       $request = Request::createFromGlobals();
-       $response = new Response();
+        $oauth = new Oauth();
+        $request = Request::createFromGlobals();
+        $response = new Response();
 
-       if(!$oauth->server->verifyResourceRequest($request)){
-         $oauth->server->getResponse()->send();
-         die();
-       }
+        if(!$oauth->server->verifyResourceRequest($request)){
+          $oauth->server->getResponse()->send();
+          die();
+        }
     }
 
     //--------------------------------------------------------------------
 
-    public function after(RequestInterface $request, ResponseInterface $response)
+    public function after(RequestInterface $request, ResponseInterface $response , $arguments = NULL)
     {
         // Do something here
     }

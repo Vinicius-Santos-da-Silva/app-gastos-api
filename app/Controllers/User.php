@@ -14,11 +14,14 @@ class User extends BaseController
 		$request = new Request();
 		$respond = $oauth->server->handleTokenRequest($request->createFromGlobals());
 		$code = $respond->getStatusCode();
+		
+		// print_r($request->createFromGlobals());die('dscds');
 		$body = $respond->getResponseBody();
 		return $this->respond(json_decode($body), $code);
 	}
 
 	public function register(){
+
 		helper('form');
 		$data = [];
 
@@ -37,6 +40,7 @@ class User extends BaseController
 		if(! $this->validate($rules)){
 			return $this->fail($this->validator->getErrors());
 		}else{
+			
 			$model = new UserModel();
 
 			$data = [
@@ -45,6 +49,7 @@ class User extends BaseController
 			'email' => $this->request->getVar('email'),
 			'password' => $this->request->getVar('password'),
 			];
+
 
 			$user_id = $model->insert($data);
 			$data['id'] = $user_id;

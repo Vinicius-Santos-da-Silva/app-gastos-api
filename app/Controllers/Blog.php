@@ -18,7 +18,7 @@ class Blog extends ResourceController
 		$rules = [
 			'title' => 'required|min_length[6]',
 			'description' => 'required',
-			'featured_image' => 'uploaded[featured_image]|max_size[featured_image, 1024]|is_image[featured_image]'
+			// 'featured_image' => 'uploaded[featured_image]|max_size[featured_image, 1024]|is_image[featured_image]'
 		];
 
 		if(!$this->validate($rules)){
@@ -26,20 +26,22 @@ class Blog extends ResourceController
 		}else{
 
 			//Get the file
-			$file = $this->request->getFile('featured_image');
-			if(! $file->isValid())
-				return $this->fail($file->getErrorString());
+			// $file = $this->request->getFile('featured_image');
+			// if(! $file->isValid())
+			// 	return $this->fail($file->getErrorString());
 
-			$file->move('./assets/uploads');
+			// $file->move('./assets/uploads');
 
 			$data = [
 				'post_title' => $this->request->getVar('title'),
 				'post_description' => $this->request->getVar('description'),
-				'post_featured_image' => $file->getName()
+				// 'post_featured_image' => $file->getName()
 			];
 
 			$post_id = $this->model->insert($data);
+			
 			$data['post_id'] = $post_id;
+
 			return $this->respondCreated($data);
 		}
 	}
