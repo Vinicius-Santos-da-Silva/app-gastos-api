@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.3.0",
 		"ext-intl": "*",
-		"codeigniter4/framework":"^4.1"
+		"codeigniter4/framework":"^4.1",
+		"bshaffer/oauth2-server-php": "1.10"
     }
 }
