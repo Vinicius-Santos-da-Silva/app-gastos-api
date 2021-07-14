@@ -3,4 +3,5 @@ chmod +x env
 cp env .env
 composer self-update
 composer update
+composer install
 composer fund
