@@ -8,8 +8,36 @@ class Blog extends ResourceController
 	protected $format = 'json';
 
 	public function index(){
-		$posts = $this->model->findAll();
-		return $this->respond($posts);
+		$limit = $this->request->getVar("limit");
+		$offset = $this->request->getVar("offset");
+
+		if(!$limit) {
+			$limit = 4;
+		}
+		
+		if(!$offset) {
+			$offset = 0;
+		}
+
+		$posts = $this->model->findAll($limit , $offset);
+		
+		$all_results = $this->model->countAllResults();
+
+		$to = $offset+$limit;
+		
+		if($to > $all_results) {
+			$to = $to + ($all_results - $to);
+		}
+		
+		$response = array(
+			'data' => $posts,
+			'total_pages' => ceil($all_results/$limit),
+			'total' => $all_results,
+			'from' => $offset+1,
+			'to' => $to
+		);
+
+		return $this->respond($response);
 	}
 
 	public function create(){
