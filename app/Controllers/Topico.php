@@ -1,44 +1,28 @@
 <?php namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
+use App\Models\TopicoHasTopicoModel;
 
-class Blog extends ResourceController
+class Topico extends ResourceController
 {
-	protected $modelName = 'App\Models\BlogModel';
+	protected $modelName = 'App\Models\TopicoModel';
 	protected $format = 'json';
 
 	public function index(){
-		$limit = $this->request->getVar("limit");
-		$offset = $this->request->getVar("offset");
+        
+        $topico_has_topico_model = new TopicoHasTopicoModel();
 
-		if(!$limit) {
-			$limit = 10;
-		}
-		
-		if(!$offset) {
-			$offset = 0;
-		}
+		$topicos = $this->model->where(['pai' => 1 , 'filho' => 0])->find();
+        
+        foreach ($topicos as $k => $topico) {
 
-		$posts = $this->model->findAll($limit , $offset);
-		
-		$all_results = $this->model->countAllResults();
+            $topico->findDepents();
+            
+            $topicos[$k]->findDepents();
 
-		$to = $offset+$limit;
+        }
 		
-		if($to > $all_results) {
-			$to = $to + ($all_results - $to);
-		}
-		
-		$response = array(
-			'data' => $posts,
-			'total_pages' => ceil($all_results/$limit),
-			'total' => $all_results,
-			'from' => $offset+1,
-			'to' => $to,
-			'limit' => 10,
-		);
-
-		return $this->respond($response);
+		return $this->respond($topicos);
 	}
 
 	public function create(){

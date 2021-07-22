@@ -60,6 +60,10 @@ class User extends BaseController
 
 	}
 
+	public function check() {
+		return $this->respond('ok');
+	}
+
 
 
 }
