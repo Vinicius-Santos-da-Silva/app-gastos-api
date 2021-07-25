@@ -15,14 +15,21 @@ class Topico extends ResourceController
 		$topicos = $this->model->where(['pai' => 1 , 'filho' => 0])->find();
         
         foreach ($topicos as $k => $topico) {
-
-            $topico->findDepents();
             
             $topicos[$k]->findDepents();
 
         }
 		
 		return $this->respond($topicos);
+	}
+
+	public function show($id = null){
+		
+		$topico = $this->model->find($id);
+
+		$topico->findDepents();
+
+		return $this->respond($topico);
 	}
 
 	public function create(){
@@ -38,17 +45,9 @@ class Topico extends ResourceController
 			return $this->fail($this->validator->getErrors());
 		}else{
 
-			//Get the file
-			// $file = $this->request->getFile('featured_image');
-			// if(! $file->isValid())
-			// 	return $this->fail($file->getErrorString());
-
-			// $file->move('./assets/uploads');
-
 			$data = [
 				'post_title' => $this->request->getVar('title'),
 				'post_description' => $this->request->getVar('description'),
-				// 'post_featured_image' => $file->getName()
 			];
 
 			$post_id = $this->model->insert($data);
@@ -57,11 +56,6 @@ class Topico extends ResourceController
 
 			return $this->respondCreated($data);
 		}
-	}
-
-	public function show($id = null){
-		$data = $this->model->find($id);
-		return $this->respond($data);
 	}
 
 	public function update($id = null){

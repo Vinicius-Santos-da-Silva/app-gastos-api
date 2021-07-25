@@ -4,6 +4,7 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 use App\Models\TopicoHasTopicoModel;
+use App\Models\BlogHasTopicoModel;
 use App\Models\TopicoModel;
 
 class TopicoEntity extends Entity
@@ -16,8 +17,10 @@ class TopicoEntity extends Entity
         'pai' => null,
         'filho' => null,
         'filhos' => [],
+        'posts' => [],
     ];
 
+    
 
     public function setPassword(string $pass)
     {
@@ -86,9 +89,30 @@ class TopicoEntity extends Entity
             $filho = $model2->find($value['topico_id1']);
             
             $filho->findDepents();
+            $filho->findPosts();
 
             $this->attributes['filhos'][] = $filho;
         }
+
+        $this->findPosts();
+
+    }
+
+    public function findPosts() {
+
+        $model = new BlogHasTopicoModel();
+
+        $this->attributes['posts'] = [];
+
+        $rels = $model->where(['topico_id' => $this->getId()])->find();
+
+        foreach ($rels as $key => $rel) {
+            $this->attributes['posts'][] = $rel->getPost();
+        }
+
+        // echo "<pre>";
+        // print_r($rel);
+        // die('ffffff');
     }
 
 
