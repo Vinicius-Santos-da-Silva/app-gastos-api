@@ -131,7 +131,6 @@ class Blog extends ResourceController
 			];
 			
 			$uuid = $blog_topico_model->insert($data_insert);
-			echo $uuid;die('fim');
 		}
 		
 		
