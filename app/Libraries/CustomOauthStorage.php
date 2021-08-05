@@ -64,8 +64,16 @@ class CustomOauthStorage implements
                 'options' => array(),
             ), $connection);
 
-            $connection = new \PDO($connection['dsn'], $connection['username'], $connection['password'], $connection['options']);
+            
+            try {
+                $connection = new \PDO($connection['dsn'], $connection['username'], $connection['password'], $connection['options']);
+            } catch (\Throwable $th) {
+                    // echo "<pre>";
+                // ;print_r($connection);die();
+                //throw $th;
+            }
         }
+
         $this->db = $connection;
         // $db = \Config\Database::connect();
         // echo "<pre>";

@@ -33,6 +33,7 @@ $routes->setAutoRoute(true);
 //$routes->get('/', 'Home::index');
 $routes->resource('blog');
 $routes->resource('post');
+$routes->resource('topico');
 $routes->get('api/blog/slug/(:any)', 'BlogAPI::slug/$1');
 
 

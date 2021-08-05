@@ -5,6 +5,7 @@ namespace App\Entities;
 use CodeIgniter\Entity\Entity;
 use App\Models\TopicoHasTopicoModel;
 use App\Models\TopicoModel;
+use App\Models\BlogHasTopicoModel;
 use App\Models\BlogModel;
 use App\Models\PostModel;
 
@@ -15,11 +16,11 @@ class BlogEntity extends Entity
         'post_description'=> null,
         'post_featured_image' => null,
         'is_free' => null,
-        'slug' => null
+        'slug' => null,
+        'topico' => null
     ];
 
     
-
     public function findPosts() {
 
         $post_model = new PostModel();
@@ -28,4 +29,22 @@ class BlogEntity extends Entity
     
         return $this;
     }
+
+    public function findTopicoPai() 
+    {
+        $model = new BlogHasTopicoModel();
+    
+        $topico = $model
+            ->where(['blog_post_id' => $this->attributes['post_id']])
+            ->first();
+
+        if(!$topico) {
+            return $this;
+        }
+
+        $this->attributes['topico'] = $topico->findTopico();
+        
+        return $this;
+    }
+
 }

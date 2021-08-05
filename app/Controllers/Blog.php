@@ -1,6 +1,7 @@
 <?php namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
+use App\Models\BlogHasTopicoModel;
 
 class Blog extends ResourceController
 {
@@ -75,6 +76,7 @@ class Blog extends ResourceController
 		}
 
 		$data->findPosts();
+		$data->findTopicoPai();
 
 		return $this->respond($data);
 
@@ -113,15 +115,26 @@ class Blog extends ResourceController
 			'slug' => $this->request->getVar('slug'),
 		];
 
-		if($fileName != ''){
+		
+		
+		
+		$topico_id = $this->request->getVar('topico');
 
-			$file = $this->request->getFile('featured_image');
-			if(! $file->isValid())
-				return $this->fail($file->getErrorString());
+		if($topico_id) {
+			$blog_topico_model = new BlogHasTopicoModel(); 
 
-			$file->move('./assets/uploads');
-			$data['post_featured_image'] = $file->getName();
+			$blog_topico_ = $blog_topico_model->where(['blog_post_id' => $id])->delete();
+
+			$data_insert = [
+				'topico_id' => $topico_id,
+				'blog_post_id' => $id
+			];
+			
+			$uuid = $blog_topico_model->insert($data_insert);
+			echo $uuid;die('fim');
 		}
+		
+		
 
 		$this->model->save($data);
 
