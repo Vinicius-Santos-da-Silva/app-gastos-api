@@ -12,7 +12,8 @@ class Topico extends ResourceController
         
         $topico_has_topico_model = new TopicoHasTopicoModel();
 
-		$topicos = $this->model->where(['pai' => 1 , 'filho' => 0])->find();
+		// $topicos = $this->model->where(['pai' => 1 , 'filho' => 0])->find();
+		$topicos = $this->model->find();
         
         foreach ($topicos as $k => $topico) {
             
