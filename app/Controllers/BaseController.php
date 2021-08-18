@@ -42,6 +42,16 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.:
 		// $this->session = \Config\Services::session();
+
+		try {
+			
+			$usuario = UserUtil::getFromRequest();
+		
+		} catch (\Throwable $th) {
+		
+			return $this->failUnauthorized($th->getMessage());
+		
+		}
 	}
 
 }

@@ -110,9 +110,38 @@ class TopicoEntity extends Entity
             $this->attributes['posts'][] = $rel->getPost();
         }
 
-        // echo "<pre>";
-        // print_r($rel);
-        // die('ffffff');
+        return $this;
+    }
+
+    public function addTopico(TopicoEntity $topico) {
+
+        $model = new TopicoHasTopicoModel();
+
+        $data = [
+            'topico_id1' => $topico->getId(),
+            'topico_id' => $this->getId(),
+        ];
+
+        $existe = $model->where($data)->find();
+
+        if($existe){
+            return $existe;
+        }
+
+        return $model->insert($data);
+    }
+
+    public function removeTopico(TopicoEntity $topico) {
+
+        $model = new TopicoHasTopicoModel();
+
+        $data = [
+            'topico_id1' => $topico->getId(),
+            'topico_id' => $this->getId(),
+        ];
+
+        return $model->where($data)->delete();
+
     }
 
 

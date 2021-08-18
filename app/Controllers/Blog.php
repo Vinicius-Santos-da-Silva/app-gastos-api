@@ -2,6 +2,8 @@
 
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\BlogHasTopicoModel;
+use App\Models\UsuarioModel;
+use App\Helpers\User;
 
 class Blog extends ResourceController
 {
@@ -68,11 +70,18 @@ class Blog extends ResourceController
 	}
 
 	public function show($id = null){
-
+		
+	
 		$data = $this->model->find($id);
 
 		if(!$data) {
 			return $this->failNotFound('Item not found');
+		}
+
+		$usuario = User::getFromRequest();
+		
+		if(!$usuario->isPremium() && $data->isPremium()) {
+			return $this->failUnauthorized();
 		}
 
 		$data->findPosts();

@@ -4,6 +4,7 @@ use \App\Libraries\Oauth;
 use \OAuth2\Request;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\UserModel;
+use App\Helpers\User as UserUtil;
 
 class User extends BaseController
 {
@@ -61,6 +62,14 @@ class User extends BaseController
 	}
 
 	public function check() {
+		
+		try {
+			
+			$usuario = UserUtil::getFromRequest();
+		
+		} catch (\Throwable $th) {
+			return $this->failUnauthorized($th->getMessage());
+		}
 		return $this->respond('ok');
 	}
 

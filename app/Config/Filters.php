@@ -34,6 +34,13 @@ class Filters extends BaseConfig
 	// that they should run on, like:
 	//    'isLoggedIn' => ['before' => ['account/*', 'profiles/*']],
 	public $filters = [
-		'oauthfilter' => ['before' => ['blog','blog/*']]
+		'oauthfilter' => [
+			'before' => [
+				'blog',
+				'blog/*',
+				'topico/*',
+				'api/*'
+			]
+		]
 	];
 }

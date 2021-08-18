@@ -47,4 +47,9 @@ class BlogEntity extends Entity
         return $this;
     }
 
+    public function isPremium() {
+        return !boolval($this->attributes['is_free']);
+    }
+
+
 }

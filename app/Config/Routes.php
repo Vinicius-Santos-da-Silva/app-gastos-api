@@ -32,9 +32,13 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 //$routes->get('/', 'Home::index');
 $routes->resource('blog');
-$routes->resource('post');
+$routes->resource('post');	
 $routes->resource('topico');
 $routes->get('api/blog/slug/(:any)', 'BlogAPI::slug/$1');
+$routes->post('api/topico/include/(:any)', 'BlogAPI::include/$1');
+$routes->delete('api/topico/exclude/(:any)', 'BlogAPI::exclude/$1/$2');
+
+// $routes->get('user/check', 'App\Controllers\Blog::check');
 
 
 /**
