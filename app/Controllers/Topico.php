@@ -98,6 +98,15 @@ class Topico extends ResourceController
 		return $this->failNotFound('Item not found');
 	}
 
+	public function search()
+	{
+		$q = $this->request->getVar('q');
+
+		$resultado = $this->model->like('nome' , $q)->find();
+
+		return $this->respond($resultado);
+	}
+
 
 
 	//--------------------------------------------------------------------

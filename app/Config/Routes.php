@@ -34,9 +34,13 @@ $routes->setAutoRoute(true);
 $routes->resource('blog');
 $routes->resource('post');	
 $routes->resource('topico');
+$routes->resource('usuario');
 $routes->get('api/blog/slug/(:any)', 'BlogAPI::slug/$1');
 $routes->post('api/topico/include/(:any)', 'BlogAPI::include/$1');
 $routes->delete('api/topico/exclude/(:any)', 'BlogAPI::exclude/$1/$2');
+
+$routes->get('api/topico/search', 'Topico::search/');
+
 
 // $routes->get('user/check', 'App\Controllers\Blog::check');
 
