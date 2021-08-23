@@ -43,15 +43,15 @@ class BaseController extends Controller
 		// E.g.:
 		// $this->session = \Config\Services::session();
 
-		try {
+		// try {
 			
-			$usuario = UserUtil::getFromRequest();
+		// 	$usuario = UserUtil::getFromRequest();
 		
-		} catch (\Throwable $th) {
+		// } catch (\Throwable $th) {
 		
-			return $this->failUnauthorized($th->getMessage());
+		// 	return $this->failUnauthorized($th->getMessage());
 		
-		}
+		// }
 	}
 
 }
